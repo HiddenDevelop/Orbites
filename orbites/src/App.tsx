@@ -5,12 +5,16 @@ function App() {
     <main
       style={{
         minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "48px",
         background: "#111",
       }}
     >
       <ThinkingFood food="strawberry" state="thinking" size={140} />
+
+      <ThinkingFood food="donut" state="thinking" size={140} />
     </main>
   );
 }

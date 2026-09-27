@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import type { FoodType, ThinkingState } from "../core/types";
 import { strawberryPoints } from "../foods/strawberry/config";
+import { donutPoints } from "../foods/donut/config";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
 
 type ThinkingFoodProps = {
@@ -9,11 +10,7 @@ type ThinkingFoodProps = {
   size?: number;
 };
 
-export function ThinkingFood({
-  food,
-  state,
-  size = 120,
-}: ThinkingFoodProps) {
+export function ThinkingFood({ food, state, size = 120 }: ThinkingFoodProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useAnimationFrame((time) => {
@@ -33,17 +30,15 @@ export function ThinkingFood({
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, size, size);
 
-    if (food !== "strawberry") return;
-
     const scale = size / 100;
 
-    strawberryPoints.forEach((point, index) => {
+    const points = food === "strawberry" ? strawberryPoints : donutPoints;
+
+    points.forEach((point, index) => {
       const phase = index * 0.35;
 
       const pulse =
-        state === "thinking"
-          ? Math.sin(time * 0.003 + phase) * 2
-          : 0;
+        state === "thinking" ? Math.sin(time * 0.003 + phase) * 2 : 0;
 
       const x = point.x * scale;
       const y = (point.y + pulse) * scale;
@@ -56,9 +51,15 @@ export function ThinkingFood({
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
 
-      const isLeaf = index < 3;
+      if (food === "strawberry") {
+        const isLeaf = index < 3;
+        ctx.fillStyle = isLeaf ? "#55c271" : "#ff5d73";
+      }
 
-      ctx.fillStyle = isLeaf ? "#55c271" : "#ff5d73";
+      if (food === "donut") {
+        ctx.fillStyle = "#e9a06f";
+      }
+
       ctx.fill();
     });
   });

@@ -6,7 +6,7 @@ export type ThinkingState =
   | "success"
   | "error";
 
-export type FoodType = "strawberry";
+export type FoodType = "strawberry" | "donut";
 
 export type Point = {
   x: number;
